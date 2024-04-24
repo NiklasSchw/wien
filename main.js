@@ -34,10 +34,10 @@ L.control
     "Esri.WorldImagery": L.tileLayer.provider("Esri.WorldImagery"),
   }, {
     "Sehenswürdigkeiten": themaLayer.sights,
-    "Vienna Sightseeing Linien": themaLayer.lines,
-    "Vienna Sightseeing Haltestellen": themaLayer.stops,
-    "Vienna Sightseeing Fußgängerzonen": themaLayer.zones,
-    "Vienna Sightseeing Hotels": themaLayer.hotels,
+    "Buslinien": themaLayer.lines,
+    "Haltestellen": themaLayer.stops,
+    "Fußgängerzonen": themaLayer.zones,
+    "Hotels": themaLayer.hotels,
   })
   .addTo(map);
 
@@ -79,61 +79,96 @@ async function loadSights(url) {
 loadSights("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:SEHENSWUERDIGOGD&srsName=EPSG:4326&outputFormat=json")
 
 async function loadLines(url) {
-  //console.log("Loading", url);
-  let response = await fetch(url);
+  // console.log("Loading", url);
+  let response = await fetch(url)
   let geojson = await response.json();
-  //console.log(geojson);
+  // console.log(geojson);
   L.geoJSON(geojson, {
     onEachFeature: function (feature, layer) {
       console.log(feature);
       console.log(feature.properties.NAME);
+      layer.bindPopup(`
+    
+     <p> <i class="fa-solid fa-bus-simple"></i>
+      <strong>${feature.properties.LINE_NAME}</strong> </p>
+      
+      <i class="fa-solid fa-circle-stop"></i> 
+      ${feature.properties.FROM_NAME} <br>
+      <i class="fa-solid fa-up-down"></i> <br>
+      <i class="fa-solid fa-circle-stop"></i>
+      ${feature.properties.TO_NAME}
+        `);
     }
   }).addTo(themaLayer.lines);
 }
-loadLines("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:TOURISTIKLINIEVSLOGD&srsName=EPSG:4326&outputFormat=json")
+loadLines("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:TOURISTIKLINIEVSLOGD&srsName=EPSG:4326&outputFormat=json");
 
 async function loadStops(url) {
-  //console.log("Loading", url);
-  let response = await fetch(url);
+  // console.log("Loading", url);
+  let response = await fetch(url)
   let geojson = await response.json();
-  //console.log(geojson);
+  // console.log(geojson);
   L.geoJSON(geojson, {
     onEachFeature: function (feature, layer) {
       console.log(feature);
       console.log(feature.properties.NAME);
+      layer.bindPopup(`
+      <i class="fa-solid fa-bus-simple"></i>
+      <strong>${feature.properties.LINE_NAME}</strong> </p>
+      ${feature.properties.STAT_ID}
+      ${feature.properties.STAT_NAME}
+        `);
     }
   }).addTo(themaLayer.stops);
 }
-loadStops("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:TOURISTIKHTSVSLOGD&srsName=EPSG:4326&outputFormat=json")
+loadStops("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:TOURISTIKHTSVSLOGD&srsName=EPSG:4326&outputFormat=json");
 
 async function loadZones(url) {
-  //console.log("Loading", url);
-  let response = await fetch(url);
+  // console.log("Loading", url);
+  let response = await fetch(url)
   let geojson = await response.json();
-  //console.log(geojson);
+  // console.log(geojson);
   L.geoJSON(geojson, {
     onEachFeature: function (feature, layer) {
       console.log(feature);
       console.log(feature.properties.NAME);
+      layer.bindPopup(`
+      <p><strong>Fußgängerzone ${feature.properties.ADRESSE} </strong></p>
+      <i class="fa-regular fa-clock"></i>
+      ${feature.properties.ZEITRAUM}
+      <p><i class="fa-solid fa-circle-info"></i> 
+      ${feature.properties.AUSN_TEXT}
+      </p>
+        `);
     }
   }).addTo(themaLayer.zones);
 }
-loadZones("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:FUSSGEHERZONEOGD&srsName=EPSG:4326&outputFormat=json")
+loadZones("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:FUSSGEHERZONEOGD&srsName=EPSG:4326&outputFormat=json");
+
 
 async function loadHotels(url) {
-  //console.log("Loading", url);
-  let response = await fetch(url);
+  // console.log("Loading", url);
+  let response = await fetch(url)
   let geojson = await response.json();
-  //console.log(geojson);
+  // console.log(geojson);
   L.geoJSON(geojson, {
     onEachFeature: function (feature, layer) {
       console.log(feature);
       console.log(feature.properties.NAME);
+      layer.bindPopup(`
+<h3><i class="fa-solid fa-hotel"> </i>${feature.properties.BETRIEB} </h3>
+<h3><p>${feature.properties.BETRIEBSART_TXT} ${feature.properties.KATEGORIE_TXT}</p></h3>
+<hr>
+<p>Addr.: ${feature.properties.ADRESSE} <br>
+<a href="tel:${feature.properties.KONTAKT_TEL}"><i class="fa-solid fa-phone"></i> ${feature.properties.KONTAKT_TEL}</a> <br>
+<a href="mailto:${feature.properties.KONTAKT_EMAIL}"><i class="fa-solid fa-envelope"></i> ${feature.properties.KONTAKT_EMAIL}</a> <br>
+<a href= "${feature.properties.WEBLINK1}"target="hotel"> <i class="fa-solid fa-globe"></i>Homepage</a>
+</p>
+        `);
     }
   }).addTo(themaLayer.hotels);
 }
-loadHotels("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:UNTERKUNFTOGD&srsName=EPSG:4326&outputFormat=json")
-
+loadHotels("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:UNTERKUNFTOGD&srsName=EPSG:4326&outputFormat=json");
 /*
 Suche Sightseeing
 

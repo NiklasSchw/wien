@@ -18,7 +18,7 @@ let themaLayer = {
   lines: L.featureGroup().addTo(map),
   stops: L.featureGroup().addTo(map),
   zones: L.featureGroup().addTo(map),
-  hotels: L.featureGroup(),
+  hotels: L.featureGroup().addTo(map),
 }
 
 // Hintergrundlayer
@@ -74,8 +74,8 @@ async function loadSights(url) {
       });
     },
     onEachFeature: function (feature, layer) {
-      console.log(feature);
-      console.log(feature.properties.NAME);
+      //console.log(feature);
+      //console.log(feature.properties.NAME);
       layer.bindPopup(`
         <img src="${feature.properties.THUMBNAIL}" als=" alt="*">
       <h4><a href="${feature.properties.WEITERE_INF}"
@@ -94,7 +94,7 @@ async function loadLines(url) {
   // console.log(geojson);
   L.geoJSON(geojson, {
     style: function (feature) {
-      console.log(feature.properties.LINE_NAME);
+      //console.log(feature.properties.LINE_NAME);
       let lineName = feature.properties.LINE_NAME;
       let lineColor = "black";
       if (lineName == "Red Line") {
@@ -118,8 +118,8 @@ async function loadLines(url) {
       }
     },
     onEachFeature: function (feature, layer) {
-      console.log(feature);
-      console.log(feature.properties.NAME);
+      //console.log(feature);
+      //console.log(feature.properties.NAME);
       layer.bindPopup(`
     
      <p> <i class="fa-solid fa-bus-simple"></i>
@@ -161,8 +161,8 @@ async function loadStops(url) {
       });
     },
     onEachFeature: function (feature, layer) {
-      console.log(feature);
-      console.log(feature.properties.NAME);
+      //console.log(feature);
+      //console.log(feature.properties.NAME);
       layer.bindPopup(`
       <i class="fa-solid fa-bus-simple"></i>
       <strong>${feature.properties.LINE_NAME}</strong> </p>
@@ -189,8 +189,8 @@ async function loadZones(url) {
       };
     },
     onEachFeature: function (feature, layer) {
-      console.log(feature);
-      console.log(feature.properties.NAME);
+      //console.log(feature);
+      //console.log(feature.properties.NAME);
       layer.bindPopup(`
       <p><strong>Fußgängerzone ${feature.properties.ADRESSE} </strong></p>
       <i class="fa-regular fa-clock"></i>
@@ -240,8 +240,8 @@ async function loadHotels(url) {
       });
     },
     onEachFeature: function (feature, layer) {
-      console.log(feature);
-      console.log(feature.properties.NAME);
+      //console.log(feature);
+      //console.log(feature.properties.NAME);
       layer.bindPopup(`
 <h3><i class="fa-solid fa-hotel"> </i>${feature.properties.BETRIEB} </h3>
 <h3><p>${feature.properties.BETRIEBSART_TXT} ${feature.properties.KATEGORIE_TXT}</p></h3>

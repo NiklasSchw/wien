@@ -214,26 +214,26 @@ async function loadHotels(url) {
     pointToLayer: function (feature, latlng) {
       //console.log(feature.properties.LINE_NAME);
       let hotelKat = feature.properties.KATEGORIE_TXT;
-      let hotelIcon;
+      let iconName;
       if (hotelKat == "nicht kategorisiert") {
-        hotelIcon = "hotel_0star";
+        iconName = "hotel_0star";
       } else if (hotelKat == "1*") {
-        hotelIcon = "hotel_1star";
+        iconName = "hotel_1star";
       } else if (hotelKat == "2*") {
-        hotelIcon = "hotel_2stars";
+        iconName = "hotel_2stars";
       } else if (hotelKat == "3*") {
-        hotelIcon = "hotel_3stars";
+        iconName = "hotel_3stars";
       } else if (hotelKat == "4*") {
-        hotelIcon = "hotel_4stars";
+        iconName = "hotel_4stars";
       } else if (hotelKat == "5*") {
-        hotelIcon = "hotel_5stars";
+        iconName = "hotel_5stars";
       }
       else {
         //Vielleicht gibts irgendwann 6* ...
       }
       return L.marker(latlng, {
         icon: L.icon({
-          iconUrl: `icons/${hotelIcon}.png`,
+          iconUrl: `icons/${iconName}.png`,
           iconAnchor: [16, 37],
           popupAnchor: [0, -37],
         })

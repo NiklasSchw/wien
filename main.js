@@ -18,7 +18,9 @@ let themaLayer = {
   lines: L.featureGroup().addTo(map),
   stops: L.featureGroup().addTo(map),
   zones: L.featureGroup().addTo(map),
-  hotels: L.featureGroup().addTo(map),
+  hotels: L.markerClusterGroup({
+    disableClusteringAtZoom: 17
+  }).addTo(map),
 }
 
 // Hintergrundlayer
@@ -256,3 +258,4 @@ async function loadHotels(url) {
   }).addTo(themaLayer.hotels);
 }
 loadHotels("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:UNTERKUNFTOGD&srsName=EPSG:4326&outputFormat=json");
+

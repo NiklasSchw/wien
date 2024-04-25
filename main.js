@@ -135,9 +135,9 @@ async function loadZones(url) {
       layer.bindPopup(`
       <p><strong>Fußgängerzone ${feature.properties.ADRESSE} </strong></p>
       <i class="fa-regular fa-clock"></i>
-      ${feature.properties.ZEITRAUM}
+      ${feature.properties.ZEITRAUM || "dauerhaft"}
       <p><i class="fa-solid fa-circle-info"></i> 
-      ${feature.properties.AUSN_TEXT}
+      ${feature.properties.AUSN_TEXT || "ohne Ausnahme"}
       </p>
         `);
     }
@@ -169,23 +169,3 @@ async function loadHotels(url) {
   }).addTo(themaLayer.hotels);
 }
 loadHotels("https://data.wien.gv.at/daten/geo?service=WFS&request=GetFeature&version=1.1.0&typeName=ogdwien:UNTERKUNFTOGD&srsName=EPSG:4326&outputFormat=json");
-/*
-Suche Sightseeing
-
-loadLines
-Touristische Kraftfahrlinien Liniennetz
-lines
-
-loadStops
-Touristische Kraftfahrlinien Haltestellen
-stops
-
-Suche Fußgängerzonen
-loadZones
-Fußgängerzonen Wien 
-
-Suche hotels
-loadHotels
-Hotels und Unterkünfte Standorte Wien
-
-*/

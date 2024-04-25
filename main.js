@@ -14,11 +14,11 @@ let startLayer = L.tileLayer.provider("BasemapAT.grau");
 startLayer.addTo(map);
 
 let themaLayer = {
-  sights: L.featureGroup(),
-  lines: L.featureGroup(),
-  stops: L.featureGroup(),
-  zones: L.featureGroup(),
-  hotels: L.featureGroup().addTo(map),
+  sights: L.featureGroup().addTo(map),
+  lines: L.featureGroup().addTo(map),
+  stops: L.featureGroup().addTo(map),
+  zones: L.featureGroup().addTo(map),
+  hotels: L.featureGroup(),
 }
 
 // Hintergrundlayer
@@ -213,27 +213,27 @@ async function loadHotels(url) {
   L.geoJSON(geojson, {
     pointToLayer: function (feature, latlng) {
       //console.log(feature.properties.LINE_NAME);
-      let iconCategorie = feature.properties.KATEGORIE_TXT;
-      let iconName;
-      if (iconCategorie == "nicht kategorisiert") {
-        iconName = "hotel_0star";
-      } else if (iconCategorie == "1*") {
-        iconName = "hotel_1star";
-      } else if (iconCategorie == "2*") {
-        iconName = "hotel_2stars";
-      } else if (iconCategorie == "3*") {
-        iconName = "hotel_3stars";
-      } else if (iconCategorie == "4*") {
-        iconName = "hotel_4stars";
-      } else if (iconCategorie == "5*") {
-        iconName = "hotel_5stars";
+      let hotelKat = feature.properties.KATEGORIE_TXT;
+      let hotelIcon;
+      if (hotelKat == "nicht kategorisiert") {
+        hotelIcon = "hotel_0star";
+      } else if (hotelKat == "1*") {
+        hotelIcon = "hotel_1star";
+      } else if (hotelKat == "2*") {
+        hotelIcon = "hotel_2stars";
+      } else if (hotelKat == "3*") {
+        hotelIcon = "hotel_3stars";
+      } else if (hotelKat == "4*") {
+        hotelIcon = "hotel_4stars";
+      } else if (hotelKat == "5*") {
+        hotelIcon = "hotel_5stars";
       }
       else {
-        //Vielleicht kommen noch andere Farben dazu ...
+        //Vielleicht gibts irgendwann 6* ...
       }
       return L.marker(latlng, {
         icon: L.icon({
-          iconUrl: `icons/${iconName}.png`,
+          iconUrl: `icons/${hotelIcon}.png`,
           iconAnchor: [16, 37],
           popupAnchor: [0, -37],
         })
